@@ -102,3 +102,59 @@ function Layout({ children }) {
 
 export default Layout
 ```
+
+## 20 \_app.js にグローバルスタイリングを適用する
+
+https://github.com/Shin-sibainu/nextjs-blog-udemy-mod/blob/main/styles/globals.css <br>
+
+- `styles/globals.css`を編集<br>
+
+```css:globals.css
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  line-height: 1.6;
+  font-size: 18px;
+  background-color: #fbf5f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+```
+
+- `pages/index.js`を編集<br>
+
+```js:index.js
+import Head from 'next/head'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import Layout from '../components/Layout'
+
+export default function Home() {
+  return (
+    <Layout>
+      // 追記
+      <a href="">Nextjsです</a>
+    </Layout>
+  )
+}
+```
