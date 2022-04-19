@@ -332,3 +332,77 @@ export default function FirstPost() {
   )
 }
 ```
+
+## 17 複数ページに共通して使えるレイアウトコンポーネントを作成する
+
+- mkdir public/images`ディレクトリを作成<br>
+
+* `public/images`ディレクトリに`profile.png`を配置<br>
+
+- `mkdir components && touch $_/Layout.js`を実行<br>
+
+* `components/Layout.js`を編集<br>
+
+- `nfe`を打つ<br>
+
+```js:Layout.js
+import Head from 'next/head'
+
+function Layout() {
+  return (
+    <div>
+      <Head>
+        <link rel="icon" heref="/favicon.ico" />
+      </Head>
+      <header>
+        <img src="/images/profile.png" />
+      </header>
+    </div>
+  )
+}
+
+export default Layout
+```
+
+- `pages/index.js`を編集<br>
+
+```js:index.js
+import Head from 'next/head'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import Layout from '../components/Layout'
+
+export default function Home() {
+  return <Layout></Layout>
+}
+```
+
+- `components/Layout.js`を編集<br>
+
+```js:Layout.js
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
+import Head from 'next/head'
+
+export const siteTitle = 'Next.js blog'
+
+const name = 'Taka Code'
+
+function Layout({ children }) {
+  return (
+    <div>
+      <Head>
+        <link rel="icon" heref="/favicon.ico" />
+      </Head>
+      <header>
+        <img src="/images/profile.png" />
+        <h1>{name}</h1>
+      </header>
+      <main>{children}</main>
+    </div>
+  )
+}
+
+export default Layout
+```
