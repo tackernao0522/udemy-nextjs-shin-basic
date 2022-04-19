@@ -228,3 +228,7 @@ export default function FirstPost() {
   )
 }
 ```
+
+## 15 静的な画像ファイルの取り扱いについて(public ディレクトリ)<br>
+
+- 静的な画像ファイルは`public`フォルダに配置する<br>
