@@ -113,3 +113,24 @@ export default function Home() {
   )
 }
 ```
+
+## 13 pages フォルダでルーティング設定をしてみる
+
+- `$ mkdir pages/posts && touch $_/firstPost.js`を実行<br>
+
+`pages/posts/firstPost.js`を編集<br>
+
+- `nf`と打ってみる<br>
+
+```js:firstPost.js
+export default function FirstPost() {
+  return (
+    <div>
+      <h1>最初の投稿</h1>
+      <h2>ホームへ戻る</h2>
+    </div>
+  )
+}
+```
+
++ localhost:3000/posts/firstPost にアクセス<br>
