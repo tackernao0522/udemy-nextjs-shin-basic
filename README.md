@@ -406,3 +406,72 @@ function Layout({ children }) {
 
 export default Layout
 ```
+
+## 18 Next.js における css スタイリング適用方法
+
+https://github.com/Shin-sibainu/nextjs-blog-udemy-mod/blob/main/components/layout.module.css <br>
+
+- `touch components/layout.module.css`を実行<br>
+
+* `components/layout.module.css`を編集<br>
+
+```css:layout.module.css
+.container {
+  max-width: 1244px;
+  padding: 0 1rem;
+  margin: 3rem auto 6rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerImage {
+  width: 6rem;
+  height: 6rem;
+}
+
+.headerHomeImage {
+  width: 8rem;
+  height: 8rem;
+}
+
+.backToHome {
+  margin: 3rem 0 0;
+}
+```
+
+- `components/Layout.js`を編集<br>
+
+```js:Layout.js
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
+import Head from 'next/head'
+// 追加
+import styles from './layout.module.css'
+
+export const siteTitle = 'Next.js blog'
+
+const name = 'Taka Code'
+
+function Layout({ children }) {
+  return (
+    // 編集
+    <div className={styles.container}>
+      <Head>
+        <link rel="icon" heref="/favicon.ico" />
+      </Head>
+      // 編集
+      <header className={styles.header}>
+        <img src="/images/profile.png" />
+        <h1>{name}</h1>
+      </header>
+      <main>{children}</main>
+    </div>
+  )
+}
+
+export default Layout
+```
