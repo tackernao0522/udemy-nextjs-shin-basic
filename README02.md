@@ -203,3 +203,143 @@ export default function Home() {
   )
 }
 ```
+
+## 22 トップページのスタイリングを調整する
+
+https://github.com/Shin-sibainu/nextjs-blog-udemy-mod/blob/main/styles/Home.module.css <br>
+
+- `styles/Home.module.css`を編集<br>
+
+```css:Home.module.css
+.container {
+  padding: 0 2rem;
+}
+
+.main {
+  min-height: 100vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.thumbnailImage {
+  width: 950px;
+  height: 400px;
+  margin-bottom: 20px;
+  box-shadow: 4px 5px 12px black;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.thumbnailImage:hover {
+  transform: translate(4px, 5px);
+  box-shadow: none;
+}
+
+.grid {
+  display: grid;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  gap: 40px;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+```
+
+- `pages/index.js`を編集<br>
+
+```js:index.js
+/* eslint-disable @next/next/link-passhref */
+/* eslint-disable @next/next/no-img-element */
+import Head from 'next/head'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import Layout from '../components/Layout'
+import utilStyles from '../styles/utils.module.css'
+
+export default function Home() {
+  return (
+    <Layout>
+      <section className={utilStyles.headingMd}>
+        <p>
+          私はプログラミング学習中の者です/好きな言語はPHP・Ruby・JavaScriptです
+        </p>
+      </section>
+
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <h2>📝エンジニアのブログ</h2>
+        <div className={styles.grid}>
+          <article>
+            <Link href="/">
+              <img
+                src="/images/thumbnail01.jpg"
+                className={styles.thumbnailImage}
+                alt=""
+              />
+            </Link>
+            <Link href="/">
+              <a className={utilStyles.boldText}>
+                SSGとSSRの使い分けの場面はいつなのか？
+              </a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>February 23, 2020</small>
+          </article>
+          <article>
+            <Link href="/">
+              <img
+                src="/images/thumbnail01.jpg"
+                className={styles.thumbnailImage}
+                alt=""
+              />
+            </Link>
+            <Link href="/">
+              <a className={utilStyles.boldText}>
+                SSGとSSRの使い分けの場面はいつなのか？
+              </a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>February 23, 2020</small>
+          </article>
+          <article>
+            <Link href="/">
+              <img
+                src="/images/thumbnail01.jpg"
+                className={styles.thumbnailImage}
+                alt=""
+              />
+            </Link>
+            <Link href="/">
+              <a className={utilStyles.boldText}>
+                SSGとSSRの使い分けの場面はいつなのか？
+              </a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>February 23, 2020</small>
+          </article>
+          <article>
+            <Link href="/">
+              <img
+                src="/images/thumbnail01.jpg"
+                className={styles.thumbnailImage}
+                alt=""
+              />
+            </Link>
+            <Link href="/">
+              <a className={utilStyles.boldText}>
+                SSGとSSRの使い分けの場面はいつなのか？
+              </a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>February 23, 2020</small>
+          </article>
+        </div>
+      </section>
+    </Layout>
+  )
+}
+```

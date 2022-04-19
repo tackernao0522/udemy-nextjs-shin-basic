@@ -14,18 +14,54 @@ export default function Home() {
         <p>私はプログラミング学習中の者です/好きな言語はPHP・Ruby・JavaScriptです</p>
       </section>
 
-      <section>
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2>📝エンジニアのブログ</h2>
-        <div>
+        <div className={styles.grid}>
           <article>
             <Link href="/">
-              <img src="/images/thumbnail01.jpg" alt="" />
+              <img src="/images/thumbnail01.jpg" className={styles.thumbnailImage} alt="" />
             </Link>
             <Link href="/">
-              <a>SSGとSSRの使い分けの場面はいつなのか？</a>
+              <a className={utilStyles.boldText}>SSGとSSRの使い分けの場面はいつなのか？</a>
             </Link>
             <br />
-            <small>
+            <small className={utilStyles.lightText}>
+              February 23, 2020
+            </small>
+          </article>
+          <article>
+            <Link href="/">
+              <img src="/images/thumbnail01.jpg" className={styles.thumbnailImage} alt="" />
+            </Link>
+            <Link href="/">
+              <a className={utilStyles.boldText}>SSGとSSRの使い分けの場面はいつなのか？</a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              February 23, 2020
+            </small>
+          </article>
+          <article>
+            <Link href="/">
+              <img src="/images/thumbnail01.jpg" className={styles.thumbnailImage} alt="" />
+            </Link>
+            <Link href="/">
+              <a className={utilStyles.boldText}>SSGとSSRの使い分けの場面はいつなのか？</a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              February 23, 2020
+            </small>
+          </article>
+          <article>
+            <Link href="/">
+              <img src="/images/thumbnail01.jpg" className={styles.thumbnailImage} alt="" />
+            </Link>
+            <Link href="/">
+              <a className={utilStyles.boldText}>SSGとSSRの使い分けの場面はいつなのか？</a>
+            </Link>
+            <br />
+            <small className={utilStyles.lightText}>
               February 23, 2020
             </small>
           </article>
