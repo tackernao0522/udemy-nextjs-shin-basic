@@ -95,3 +95,7 @@ export default function Home({ allPostsData }) {
 - clone `$ git push -u origin HEAD`を実行<br>
 
 * github にプルリクを送り vercel bot の「preview」の URL をクリックするとデプロイした状態を確認できる。これで OK であればマージすればいい<br>
+
+## 47 Next.js が本当にページを高速にレンダリングしているか確認してみる
+
+https://pagespeed.web.dev/ <br>
