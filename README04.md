@@ -325,3 +325,178 @@ function Layout({ children, home }) {
 
 export default Layout
 ```
+
+## 41 ブログの細かい訂正をする(その 2)
+
+- `components/Layout.js`を編集<br>
+
+```js:Layout.js
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
+import Head from 'next/head'
+import styles from './layout.module.css'
+import utilStyles from '../styles/utils.module.css'
+import Link from 'next/link'
+
+export const siteTitle = 'Next.js blog'
+
+const name = 'Taka Code'
+
+function Layout({ children, home }) {
+  return (
+    <div className={styles.container}>
+      <Head>
+        <link rel="icon" heref="/favicon.ico" />
+      </Head>
+      <header className={styles.header}>
+        {home ? (
+          <>
+            <img
+              src="/images/profile.png"
+              className={`${utilStyles.borderCircle} ${styles.headerHomeImage}`}
+            />
+            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+          </>
+        ) : (
+          <>
+            <img
+              src="/images/profile.png"
+              className={`${utilStyles.borderCircle}`}
+            />
+            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+          </>
+        )}
+      </header>
+      <main>{children}</main>
+      // 追加
+      {!home && (
+        <div>
+          <Link href="/">← ホームへ戻る</Link>
+        </div>
+      )}
+      // ここまで
+    </div>
+  )
+}
+
+export default Layout
+```
+
+- `pages/index.js`を編集<br>
+
+```js:index.js
+/* eslint-disable @next/next/link-passhref */
+/* eslint-disable @next/next/no-img-element */
+import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import Layout, { siteTitle } from '../components/Layout'
+import utilStyles from '../styles/utils.module.css'
+import { getPostsData } from '../lib/post'
+import Head from 'next/head'
+
+// SSGの場合
+export const getStaticProps = async () => {
+  const allPostsData = getPostsData() // id, title, date, thumbnail
+  // console.log(allPostsData)
+
+  return {
+    props: {
+      allPostsData,
+    },
+  }
+}
+
+// SSRの場合(今回は使っていない)
+// export const getServerSideProps = async (context) => {
+//   return {
+//     props: {
+//       // コンポーネントに渡すためのprops
+//     }
+//   }
+// }
+
+export default function Home({ allPostsData }) {
+  return (
+    <Layout home>
+      // 追加
+      <Head>
+        <title>{siteTitle}</title>
+      </Head>
+      ここまで/
+      <section className={utilStyles.headingMd}>
+        <p>
+          私はプログラミング学習中の者です/好きな言語はPHP・Ruby・JavaScriptです
+        </p>
+      </section>
+      <section className={utilStyles.headingMd}>
+        <h2>📝エンジニアのブログ</h2>
+        <div className={styles.grid}>
+          {allPostsData.map(({ id, title, date, thumbnail }) => (
+            <article key={id}>
+              <Link href={`/posts/${id}`}>
+                <img
+                  src={`${thumbnail}`}
+                  className={styles.thumbnailImage}
+                  alt=""
+                />
+              </Link>
+              <Link href={`/posts/${id}`}>
+                <a className={utilStyles.boldText}>{title}</a>
+              </Link>
+              <br />
+              <small className={utilStyles.lightText}>{date}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+    </Layout>
+  )
+}
+```
+
+- `pages/posts/[id].js`を編集<br>
+
+```js:[id].js
+// 追加
+import Head from 'next/head'
+import Layout from '../../components/Layout'
+import { getAllPostIds, getPostData } from '../../lib/post'
+import utilStyles from '../../styles/utils.module.css'
+
+export const getStaticPaths = () => {
+  const paths = getAllPostIds()
+
+  return {
+    paths,
+    fallback: false,
+  }
+}
+
+export const getStaticProps = async ({ params }) => {
+  const postData = await getPostData(params.id)
+
+  return {
+    props: {
+      postData,
+    },
+  }
+}
+
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      // 追加
+      <Head>
+        <title>{postData.title}</title>
+      </Head>
+      // ここまで
+      <article>
+        <h1 className={utilStyles.headingX1}>{postData.title}</h1>
+        <div className={utilStyles.lightText}>{postData.date}</div>
+        {/* 本来はサニタイズした方が良い */}
+        <div dangerouslySetInnerHTML={{ __html: postData.blogContentHTML }} />
+      </article>
+    </Layout>
+  )
+}
+```
