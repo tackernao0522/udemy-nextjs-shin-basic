@@ -147,3 +147,47 @@ export default function Post({ postData }) {
   )
 }
 ```
+
+## 37 ブログ記事のレイアウトを訂正する
+
+- `pages/posts/[id].js`を編集<br>
+
+```js:[id].js
+import Layout from '../../components/Layout'
+import { getAllPostIds, getPostData } from '../../lib/post'
+// 追加
+import utilStyles from '../../styles/utils.module.css'
+
+export const getStaticPaths = () => {
+  const paths = getAllPostIds()
+
+  return {
+    paths,
+    fallback: false,
+  }
+}
+
+export const getStaticProps = async ({ params }) => {
+  const postData = await getPostData(params.id)
+
+  return {
+    props: {
+      postData,
+    },
+  }
+}
+
+export default function Post({ postData }) {
+  return (
+    <Layout>
+    // 編集
+      <article>
+        <h1 className={utilStyles.headingX1}>{postData.title}</h1>
+        <div className={utilStyles.lightText}>{postData.date}</div>
+        {/* 本来はサニタイズした方が良い */}
+        <div dangerouslySetInnerHTML={{ __html: postData.blogContentHTML }} />
+      </article>
+    </Layout>
+  )
+}
+```
