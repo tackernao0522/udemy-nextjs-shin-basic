@@ -346,3 +346,66 @@ export default function Post() {
   return <Layout>動的ルーティング設定</Layout>
 }
 ```
+
+## 32 各ブログファイル名(id)のオブジェクトを返す関数を作成する
+
+https://nextjs.org/docs/api-reference/data-fetching/get-static-paths <br>
+
+- `lib/post.js`を編集<br>
+
+```js:post.js
+import path from 'path'
+import fs from 'fs'
+import matter from 'gray-matter'
+
+const postsDirectory = path.join(process.cwd(), 'posts')
+
+// mdファイルのデータを取り出す
+export const getPostsData = () => {
+  const fileNames = fs.readdirSync(postsDirectory)
+  const allPostsData = fileNames.map((fileName) => {
+    const id = fileName.replace(/\.md$/, '') // ファイル名(id)
+
+    // マークダウンファイルを文字列として読み取る
+    const fullPath = path.join(postsDirectory, fileName)
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
+
+    const matterResult = matter(fileContents)
+
+    // idとデータを返す
+    return {
+      id,
+      ...matterResult.data,
+    }
+  })
+  return allPostsData
+}
+
+// 追加
+// getStaticPathでreturnで使うpathを取得する
+export const getAllPostIds = () => {
+  const fileNames = fs.readdirSync(postsDirectory)
+  return fileNames.map((fileName) => ({
+    params: {
+      id: fileName.replace(/\.md$/, ''),
+    },
+  }))
+  /*
+  [
+    {
+      params: {
+        id: "ssg-ssr"
+      }
+    },
+    {
+      params: {
+        id: "next-react"
+      }
+    }
+    {
+      ...
+    }
+  ]
+  */
+}
+```
