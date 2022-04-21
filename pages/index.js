@@ -35,7 +35,7 @@ export default function Home({ allPostsData }) {
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>私はプログラミング学習中の者です/好きな言語はPHP・Ruby・JavaScriptです</p>
+        <p>私はNextjsエンジニアです/好きなフレームワークはNext.jsです。</p>
       </section>
 
       <section className={utilStyles.headingMd}>
