@@ -11,7 +11,7 @@ export const getStaticPaths = () => {
 }
 
 export const getStaticProps = ({ params }) => {
-
+  
 }
 
 export default function Post() {
