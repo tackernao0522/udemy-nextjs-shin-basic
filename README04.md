@@ -207,3 +207,121 @@ export default function Custom404() {
   return <h1>ページが見つかりませんでした。</h1>
 }
 ```
+
+## 40 ブログの細かい訂正をする(その 1)
+
+- `pages/index.js`を編集<br>
+
+```js:index.js
+/* eslint-disable @next/next/link-passhref */
+/* eslint-disable @next/next/no-img-element */
+import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import Layout from '../components/Layout'
+import utilStyles from '../styles/utils.module.css'
+import { getPostsData } from '../lib/post'
+
+// SSGの場合
+export const getStaticProps = async () => {
+  const allPostsData = getPostsData() // id, title, date, thumbnail
+  // console.log(allPostsData)
+
+  return {
+    props: {
+      allPostsData,
+    },
+  }
+}
+
+// SSRの場合(今回は使っていない)
+// export const getServerSideProps = async (context) => {
+//   return {
+//     props: {
+//       // コンポーネントに渡すためのprops
+//     }
+//   }
+// }
+
+export default function Home({ allPostsData }) {
+  return (
+    // 修正 homeをつける
+    <Layout home>
+      // 修正 classNameを修正
+      <section className={utilStyles.headingMd}>
+        <p>
+          私はプログラミング学習中の者です/好きな言語はPHP・Ruby・JavaScriptです
+        </p>
+      </section>
+      <section className={utilStyles.headingMd}>
+        <h2>📝エンジニアのブログ</h2>
+        <div className={styles.grid}>
+          {allPostsData.map(({ id, title, date, thumbnail }) => (
+            <article key={id}>
+              <Link href={`/posts/${id}`}>
+                <img
+                  src={`${thumbnail}`}
+                  className={styles.thumbnailImage}
+                  alt=""
+                />
+              </Link>
+              <Link href={`/posts/${id}`}>
+                <a className={utilStyles.boldText}>{title}</a>
+              </Link>
+              <br />
+              <small className={utilStyles.lightText}>{date}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+    </Layout>
+  )
+}
+```
+
+- `components/Layout.js`を編集<br>
+
+```js:Layout.js
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
+import Head from 'next/head'
+import styles from './layout.module.css'
+import utilStyles from '../styles/utils.module.css'
+
+export const siteTitle = 'Next.js blog'
+
+const name = 'Taka Code'
+
+function Layout({ children, home }) {
+  return (
+    <div className={styles.container}>
+      <Head>
+        <link rel="icon" heref="/favicon.ico" />
+      </Head>
+      <header className={styles.header}>
+        // 編集
+        {home ? (
+          <>
+            <img
+              src="/images/profile.png"
+              className={`${utilStyles.borderCircle} ${styles.headerHomeImage}`}
+            />
+            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+          </>
+        ) : (
+          <>
+            <img
+              src="/images/profile.png"
+              className={`${utilStyles.borderCircle}`}
+            />
+            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+          </>
+        )}
+        // ここまで
+      </header>
+      <main>{children}</main>
+    </div>
+  )
+}
+
+export default Layout
+```

@@ -29,12 +29,12 @@ export const getStaticProps = async () => {
 
 export default function Home({ allPostsData }) {
   return (
-    <Layout>
+    <Layout home>
       <section className={utilStyles.headingMd}>
         <p>私はプログラミング学習中の者です/好きな言語はPHP・Ruby・JavaScriptです</p>
       </section>
 
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+      <section className={utilStyles.headingMd}>
         <h2>📝エンジニアのブログ</h2>
         <div className={styles.grid}>
           {allPostsData.map(({ id, title, date, thumbnail }) => (
