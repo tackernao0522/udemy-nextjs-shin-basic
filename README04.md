@@ -195,3 +195,15 @@ export default function Post({ postData }) {
 ## 38 フォールバックについて補足
 
 fallback は false にすると無い URL にアクセスすると 404 エラーが出る<br>
+
+## 39 404 Not Found ページをカスタマイズする
+
+- `$ touch pages/404.js`を実行<br>
+
+* `pages/404.js`を編集<br>
+
+```js:404.js
+export default function Custom404() {
+  return <h1>ページが見つかりませんでした。</h1>
+}
+```
