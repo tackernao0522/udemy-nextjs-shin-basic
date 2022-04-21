@@ -180,7 +180,7 @@ export const getStaticProps = async ({ params }) => {
 export default function Post({ postData }) {
   return (
     <Layout>
-    // 編集
+      // 編集
       <article>
         <h1 className={utilStyles.headingX1}>{postData.title}</h1>
         <div className={utilStyles.lightText}>{postData.date}</div>
@@ -191,3 +191,7 @@ export default function Post({ postData }) {
   )
 }
 ```
+
+## 38 フォールバックについて補足
+
+fallback は false にすると無い URL にアクセスすると 404 エラーが出る<br>
