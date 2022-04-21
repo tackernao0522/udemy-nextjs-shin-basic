@@ -330,3 +330,19 @@ export default function Home({ allPostsData }) {
   )
 }
 ```
+
+# Section06: ③Next.js でマイクロブログ構築(動的ルーティング編)
+
+## 31 Next.js における任意の URL を動的ルーティングとして設定する方法
+
+- `$ touch pages/posts/\[id].js`を実行<br>
+
+* `pages/posts/[id].js`を編集<br>
+
+```js:[id].js
+import Layout from '../../components/Layout'
+
+export default function Post() {
+  return <Layout>動的ルーティング設定</Layout>
+}
+```
