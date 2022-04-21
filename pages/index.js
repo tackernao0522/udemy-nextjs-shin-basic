@@ -2,9 +2,10 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import Layout from '../components/Layout'
+import Layout, { siteTitle } from '../components/Layout'
 import utilStyles from '../styles/utils.module.css';
 import { getPostsData } from '../lib/post'
+import Head from 'next/head';
 
 // SSGの場合
 export const getStaticProps = async () => {
@@ -30,6 +31,9 @@ export const getStaticProps = async () => {
 export default function Home({ allPostsData }) {
   return (
     <Layout home>
+      <Head>
+        <title>{siteTitle}</title>
+      </Head>
       <section className={utilStyles.headingMd}>
         <p>私はプログラミング学習中の者です/好きな言語はPHP・Ruby・JavaScriptです</p>
       </section>
