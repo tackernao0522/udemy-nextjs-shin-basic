@@ -30,23 +30,23 @@ export default function Post() {
 * `lib/post.js`を編集<br>
 
 ```js:post.js
-import path from "path"
-import fs from "fs"
-import matter from "gray-matter"
-import { remark } from "remark"
-import html from "remark-html"
+import path from 'path'
+import fs from 'fs'
+import matter from 'gray-matter'
+import { remark } from 'remark'
+import html from 'remark-html'
 
-const postsDirectory = path.join(process.cwd(), "posts")
+const postsDirectory = path.join(process.cwd(), 'posts')
 
 // mdファイルのデータを取り出す
 export const getPostsData = () => {
   const fileNames = fs.readdirSync(postsDirectory)
   const allPostsData = fileNames.map((fileName) => {
-    const id = fileName.replace(/\.md$/, "") // ファイル名(id)
+    const id = fileName.replace(/\.md$/, '') // ファイル名(id)
 
     // マークダウンファイルを文字列として読み取る
     const fullPath = path.join(postsDirectory, fileName)
-    const fileContents = fs.readFileSync(fullPath, "utf8")
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
 
     const matterResult = matter(fileContents)
 
@@ -62,13 +62,11 @@ export const getPostsData = () => {
 // getStaticPathでreturnで使うpathを取得する
 export const getAllPostIds = () => {
   const fileNames = fs.readdirSync(postsDirectory)
-  return fileNames.map((fileName) => (
-    {
-      params: {
-        id: fileName.replace(/\.md$/, ""),
-      }
-    }
-  ))
+  return fileNames.map((fileName) => ({
+    params: {
+      id: fileName.replace(/\.md$/, ''),
+    },
+  }))
   /*
   [
     {
@@ -92,20 +90,60 @@ export const getAllPostIds = () => {
 // idに基づいてブログ投稿データを返す
 export const getPostData = async (id) => {
   const fullPath = path.join(postsDirectory, `${id}.md`)
-  const fileContent = fs.readFileSync(fullPath, "utf8")
+  const fileContent = fs.readFileSync(fullPath, 'utf8')
 
   const matterResult = matter(fileContent)
 
-  const blogContent = await remark()
-    .use(html)
-    .process(matterResult.content);
+  const blogContent = await remark().use(html).process(matterResult.content)
 
   const blogContentHTML = blogContent.toString()
 
   return {
     id,
     blogContentHTML,
-    ...matterResult.data
+    ...matterResult.data,
   }
+}
+```
+
+## 36 実際に getStaticPaths と getStaticProps を実感する
+
+- `pages/posts/[id].js`を編集<br>
+
+```js:[id].js
+import Layout from '../../components/Layout'
+import { getAllPostIds, getPostData } from '../../lib/post'
+
+export const getStaticPaths = () => {
+  const paths = getAllPostIds()
+
+  return {
+    paths,
+    fallback: false,
+  }
+}
+
+// asyncとawaitをつける
+export const getStaticProps = async ({ params }) => {
+  const postData = await getPostData(params.id)
+
+  return {
+    props: {
+      postData,
+    },
+  }
+}
+
+// 編集
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      {postData.title}
+      <br />
+      {postData.date}
+      <br />
+      {postData.blogContentHTML}
+    </Layout>
+  )
 }
 ```
